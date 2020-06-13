@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -38,13 +39,28 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver batteryStatusReceiver = new BatteryStatusReceiver();
     private DrawerLayout drawer;
     private FloatingActionButton floatingActionButton;
-    private NavigationView navigationView;
     private LocListener locListener = null;
+    private SharedPreferences settingPrefs;
+    private NavigationView navigationView;
     private Toolbar toolbar;
+
+    private final String settingsPrefsKey = "named_prefs";
+    private final String themeKey = "theme_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        settingPrefs = getSharedPreferences(settingsPrefsKey, MODE_PRIVATE);
+
+        boolean isDarkTheme = settingPrefs.getBoolean(themeKey, false);
+
+        if (isDarkTheme) {
+            setTheme(R.style.AppDarkTheme);
+        } else {
+            setTheme(R.style.AppTheme_NoActionBar);
+        }
+        
         setContentView(R.layout.activity_main);
 
         initViews();
@@ -68,20 +84,6 @@ public class MainActivity extends AppCompatActivity {
         initNotificationChannel();
         registerReceivers();
         setOnFloatingButtonClick();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        EventBus.getBus().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        EventBus.getBus().unregister(this);
     }
 
     @Override
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     private void initNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_MIN;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("2", "name", importance);
             notificationManager.createNotificationChannel(channel);
         }

@@ -35,20 +35,20 @@ import com.squareup.picasso.Picasso;
 
 public class WeatherFragment extends Fragment {
     private SharedPreferences activityPrefs;
-    private TextClock timeTextView;
     private TextView cityTextView;
+    private TextClock timeTextView;
+    private View view;
     private TextView windSpeedTextView;
     private TextView weatherIconTextView;
     private TextView weatherDescriptionTextView;
-    private View view;
 
     private final String cityKey = "city_key";
     private final String dateKey = "date_key";
-    private final String iconKey = "icon_key";
-    private final String floatTempKey = "tempFloat_key";
-    private final String windSpeedKey = "windSpeed_key";
-    private final String temperatureKey = "temperature_key";
     private final String descriptionKey = "description_key";
+    private final String floatTempKey = "tempFloat_key";
+    private final String iconKey = "icon_key";
+    private final String temperatureKey = "temperature_key";
+    private final String windSpeedKey = "windSpeed_key";
 
     public static WeatherFragment create() {
         WeatherFragment fragment = new WeatherFragment();
@@ -164,7 +164,7 @@ public class WeatherFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-       handleMenuItemClick(item);
+        handleMenuItemClick(item);
         return super.onContextItemSelected(item);
     }
 

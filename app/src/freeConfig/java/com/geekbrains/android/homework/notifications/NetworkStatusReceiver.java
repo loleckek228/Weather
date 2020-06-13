@@ -12,7 +12,7 @@ public class NetworkStatusReceiver extends BroadcastReceiver {
         String status = NetworkUtil.getConnectivityStatusString(context);
 
         if (status == null || status.isEmpty()) {
-            status = "No Internet Connection";
+            status = context.getString(R.string.no_internet_connection);
         }
 
         new Notification(context, R.drawable.ic_disconneting_network,
