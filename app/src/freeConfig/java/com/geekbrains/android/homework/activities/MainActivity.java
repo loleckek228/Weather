@@ -34,18 +34,29 @@ import com.geekbrains.android.homework.weatherData.RetrievesWeatherData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private BroadcastReceiver networkStatusReceiver = new NetworkStatusReceiver();
     private BroadcastReceiver batteryStatusReceiver = new BatteryStatusReceiver();
-    private DrawerLayout drawer;
-    private FloatingActionButton floatingActionButton;
-    private NavigationView navigationView;
     private SharedPreferences settingPrefs;
-    private Toolbar toolbar;
 
     private final String settingsPrefsKey = "named_prefs";
     private final String themeKey = "theme_key";
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+
+    @BindView(R.id.floatingButton)
+    FloatingActionButton floatingActionButton;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        initViews();
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_search_city, R.id.navigation_weather,
@@ -82,15 +95,6 @@ public class MainActivity extends AppCompatActivity {
         registerReceivers();
         initNotificationChannel();
         setOnFloatingButtonClick();
-    }
-
-    private void initViews() {
-        drawer = findViewById(R.id.drawer_layout);
-        floatingActionButton = findViewById(R.id.floatingButton);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
     }
 
     @Override

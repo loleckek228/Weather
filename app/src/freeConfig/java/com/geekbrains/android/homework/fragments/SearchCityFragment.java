@@ -34,15 +34,23 @@ import com.geekbrains.android.homework.weatherData.RetrievesWeatherData;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.otto.Subscribe;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static java.util.Objects.requireNonNull;
 
 public class SearchCityFragment extends Fragment {
     private SearchBottomSheerDialogFragment dialogFragment;
     private RecyclerCitiesAdapter adapter;
     private CitiesSource citiesSource;
+    private Unbinder unbinder;
     private View view;
 
     private boolean isExistWeather;
+
+    @BindView(R.id.searchCitiesRecyclerView)
+    RecyclerView recyclerView;
 
     @Override
     public void onStart() {
@@ -73,6 +81,8 @@ public class SearchCityFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
 
+        unbinder = ButterKnife.bind(this, view);
+
         CurrentFragment.getInstance().setFragment(this);
 
         isExistWeather = checkOrientation();
@@ -89,6 +99,13 @@ public class SearchCityFragment extends Fragment {
         if (isExistWeather) {
             showWeather(WeatherContainer.getInstance().getCity());
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        unbinder.unbind();
     }
 
     @Override
@@ -139,7 +156,7 @@ public class SearchCityFragment extends Fragment {
     }
 
     public void addCity(String city) {
-        RetrievesWeatherData.getInstance().updateWeatherData( city, false);
+        RetrievesWeatherData.getInstance().updateWeatherData(city, false);
     }
 
     private OnDialogListener dialogListener = new OnDialogListener() {

@@ -21,11 +21,19 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class AuthGoogleFragment extends Fragment {
     private GoogleSignInClient googleSignInClient;
+    private Unbinder unbinder;
+    private View view;
+
     private int RC_SIGN_IN = 100;
 
-    private View view;
+    @BindView(R.id.sign_in_button)
+    SignInButton signInButton;
 
     @Nullable
     @Override
@@ -37,6 +45,8 @@ public class AuthGoogleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
+
+        unbinder = ButterKnife.bind(this, view);
 
         initSignInParameters();
         initSignInBtn();
@@ -51,11 +61,11 @@ public class AuthGoogleFragment extends Fragment {
     }
 
     private void initSignInBtn() {
-        SignInButton signInButton = view.findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
         signInButton.setOnClickListener(v -> signIn());
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -64,7 +74,7 @@ public class AuthGoogleFragment extends Fragment {
     }
 
     private void updateUI(GoogleSignInAccount account) {
-        if(account == null || account.isExpired() || account.getIdToken() == null) {
+        if (account == null || account.isExpired() || account.getIdToken() == null) {
         } else {
             Toast.makeText(getContext(), account.getIdToken(), Toast.LENGTH_SHORT).show();
         }
@@ -96,4 +106,10 @@ public class AuthGoogleFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        unbinder.unbind();
+    }
 }
