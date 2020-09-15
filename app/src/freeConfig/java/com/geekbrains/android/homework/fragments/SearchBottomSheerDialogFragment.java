@@ -13,15 +13,22 @@ import com.geekbrains.android.homework.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class SearchBottomSheerDialogFragment extends BottomSheetDialogFragment {
     private OnDialogListener dialogListener;
-    private TextInputEditText inputCityEditText;
+    private Unbinder unbinder;
+
+    @BindView(R.id.inputEditText)
+    TextInputEditText inputCityEditText;
 
     public static SearchBottomSheerDialogFragment newInstance() {
         return new SearchBottomSheerDialogFragment();
     }
 
-    public void setOnDialogListener (OnDialogListener dialogListener) {
+    public void setOnDialogListener(OnDialogListener dialogListener) {
         this.dialogListener = dialogListener;
     }
 
@@ -37,7 +44,7 @@ public class SearchBottomSheerDialogFragment extends BottomSheetDialogFragment {
 
         setCancelable(false);
 
-        inputCityEditText = view.findViewById(R.id.inputEditText);
+        unbinder = ButterKnife.bind(this, view);
 
         view.findViewById(R.id.searchButton).setOnClickListener((buttonView) -> {
             String city = inputCityEditText.getText().toString();
@@ -51,5 +58,12 @@ public class SearchBottomSheerDialogFragment extends BottomSheetDialogFragment {
             dismiss();
             if (dialogListener != null) dialogListener.onDialogBack();
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        unbinder.unbind();
     }
 }

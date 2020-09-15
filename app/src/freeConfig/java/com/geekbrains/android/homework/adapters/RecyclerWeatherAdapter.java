@@ -12,6 +12,9 @@ import com.geekbrains.android.homework.R;
 import com.geekbrains.android.homework.ThermometerView;
 import com.geekbrains.android.homework.Weather;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecyclerWeatherAdapter extends RecyclerView.Adapter<RecyclerWeatherAdapter.ViewHolder> {
     private Weather[] weathers;
 
@@ -45,20 +48,19 @@ public class RecyclerWeatherAdapter extends RecyclerView.Adapter<RecyclerWeather
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.thermometerView)
         ThermometerView thermometerView;
+
+        @BindView(R.id.dataListItemTextView)
         TextView dataListItemTextView;
+
+        @BindView(R.id.temperatureListItemTextView)
         TextView temperatureListItemTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            initView(itemView);
-        }
-
-        private void initView(View itemView) {
-            thermometerView = itemView.findViewById(R.id.thermometerView);
-            dataListItemTextView = itemView.findViewById(R.id.dataListItemTextView);
-            temperatureListItemTextView = itemView.findViewById(R.id.temperatureListItemTextView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

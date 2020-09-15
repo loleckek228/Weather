@@ -13,8 +13,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.geekbrains.android.homework.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class DeveloperFragment extends Fragment {
     private DeveloperViewModel developerViewModel;
+    private Unbinder unbinder;
+
+    @BindView(R.id.developerTextView)
+    TextView developerName;
 
     @Nullable
     @Override
@@ -23,12 +31,19 @@ public class DeveloperFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_developer, container, false);
 
-        final TextView developerName = root.findViewById(R.id.developerTextView);
+        unbinder = ButterKnife.bind(this, root);
 
         developerViewModel.getText().observe(getViewLifecycleOwner(), text -> {
             developerName.setText(text);
         });
 
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        unbinder.unbind();
     }
 }

@@ -14,13 +14,19 @@ import androidx.fragment.app.Fragment;
 
 import com.geekbrains.android.homework.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class SettingsFragment extends Fragment {
     private SharedPreferences settingsPrefs;
-
-    private Switch themeSwitch;
+    private Unbinder unbinder;
 
     private final String settingsPrefsKey = "named_prefs";
     private final String themeKey = "theme_key";
+
+    @BindView(R.id.themeSwitch)
+    Switch themeSwitch;
 
     @Nullable
     @Override
@@ -32,17 +38,13 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        settingsPrefs = getActivity().getSharedPreferences(settingsPrefsKey, Context.MODE_PRIVATE);
+        unbinder = ButterKnife.bind(this, view);
 
-        initViews(view);
+        settingsPrefs = getActivity().getSharedPreferences(settingsPrefsKey, Context.MODE_PRIVATE);
 
         readFromPreferences();
 
         setOnIsThemeSwitchChanged();
-    }
-
-    private void initViews(View view) {
-        themeSwitch = view.findViewById(R.id.themeSwitch);
     }
 
     private void readFromPreferences() {
@@ -60,5 +62,12 @@ public class SettingsFragment extends Fragment {
 
             getActivity().recreate();
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        unbinder.unbind();
     }
 }

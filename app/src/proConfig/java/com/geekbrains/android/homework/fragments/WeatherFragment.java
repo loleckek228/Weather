@@ -33,22 +33,37 @@ import com.geekbrains.android.homework.adapters.RecyclerWeatherAdapter;
 import com.geekbrains.android.homework.weatherData.RetrievesWeatherData;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class WeatherFragment extends Fragment {
     private SharedPreferences activityPrefs;
-    private TextView cityTextView;
-    private TextClock timeTextView;
+    private Unbinder unbinder;
     private View view;
-    private TextView windSpeedTextView;
-    private TextView weatherIconTextView;
-    private TextView weatherDescriptionTextView;
 
     private final String cityKey = "city_key";
     private final String dateKey = "date_key";
-    private final String descriptionKey = "description_key";
-    private final String floatTempKey = "tempFloat_key";
     private final String iconKey = "icon_key";
-    private final String temperatureKey = "temperature_key";
+    private final String floatTempKey = "tempFloat_key";
     private final String windSpeedKey = "windSpeed_key";
+    private final String temperatureKey = "temperature_key";
+    private final String descriptionKey = "description_key";
+
+    @BindView(R.id.timeTextClock)
+    TextClock timeTextView;
+
+    @BindView(R.id.cityTextView)
+    TextView cityTextView;
+
+    @BindView(R.id.windSpeedTextView)
+    TextView windSpeedTextView;
+
+    @BindView(R.id.weatherIconTextView)
+    TextView weatherIconTextView;
+
+    @BindView(R.id.weatherDescriptionTextView)
+    TextView weatherDescriptionTextView;
 
     public static WeatherFragment create() {
         WeatherFragment fragment = new WeatherFragment();
@@ -74,10 +89,11 @@ public class WeatherFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
 
+        unbinder = ButterKnife.bind(this, view);
+
         activityPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
 
         registerForContextMenu(view);
-        initViews();
         updateWeather();
         initFonts();
         initRecyclerView();
@@ -90,12 +106,11 @@ public class WeatherFragment extends Fragment {
         }
     }
 
-    private void initViews() {
-        windSpeedTextView = view.findViewById(R.id.windSpeedTextView);
-        cityTextView = view.findViewById(R.id.cityTextView);
-        timeTextView = view.findViewById(R.id.timeTextClock);
-        weatherDescriptionTextView = view.findViewById(R.id.weatherDescriptionTextView);
-        weatherIconTextView = view.findViewById(R.id.weatherIconTextView);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        unbinder.unbind();
     }
 
     private void initFonts() {

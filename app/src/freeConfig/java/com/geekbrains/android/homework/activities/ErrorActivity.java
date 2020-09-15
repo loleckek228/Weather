@@ -8,21 +8,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.geekbrains.android.homework.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ErrorActivity extends AppCompatActivity {
-    private TextView errorTextView;
+
+    @BindView(R.id.errorTextView)
+    TextView errorTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_error);
 
-        initViews();
+        ButterKnife.bind(this);
 
         setErrorTextView();
-    }
-
-    private void initViews() {
-        errorTextView = findViewById(R.id.errorTextView);
     }
 
     private void setErrorTextView() {
@@ -31,6 +32,7 @@ public class ErrorActivity extends AppCompatActivity {
         String cityName = getIntent().getStringExtra("City");
         String notFound = getResources().getString(R.string.not_found);
 
-        errorTextView.setText(error + "\n" + city + ": " + cityName + "\n" + notFound);
+        String errorText = error + "\n" + city + ": " + cityName + "\n" + notFound;
+        errorTextView.setText(errorText);
     }
 }

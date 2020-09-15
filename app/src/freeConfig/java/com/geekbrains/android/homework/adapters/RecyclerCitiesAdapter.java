@@ -18,6 +18,9 @@ import com.geekbrains.android.homework.weatherData.RetrievesWeatherData;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecyclerCitiesAdapter extends RecyclerView.Adapter<RecyclerCitiesAdapter.ViewHolder> {
     private CitiesSource dataSource;
     private Fragment fragment;
@@ -114,22 +117,22 @@ public class RecyclerCitiesAdapter extends RecyclerView.Adapter<RecyclerCitiesAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.cityItemTextView)
         TextView cityTextView;
+
+        @BindView(R.id.dataItemTextView)
         TextView dateTextView;
+
+        @BindView(R.id.temperatureItemTextView)
         TextView temperatureTextView;
         View cardView;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            initView(itemView);
-        }
+            ButterKnife.bind(this, itemView);
 
-        private void initView(View itemView) {
             cardView = itemView;
-            cityTextView = cardView.findViewById(R.id.cityItemTextView);
-            dateTextView = cardView.findViewById(R.id.dataItemTextView);
-            temperatureTextView = cardView.findViewById(R.id.temperatureItemTextView);
         }
     }
 }
