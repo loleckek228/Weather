@@ -48,7 +48,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+       googleMap.setOnMapLongClickListener(view -> {
+           Toast.makeText(getContext(), R.string.function_show_weather_on_map,
+                   Toast.LENGTH_LONG).show();
+       });
     }
 
     @Override

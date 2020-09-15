@@ -39,5 +39,7 @@
         "Option \"Show your weather\" available only for paid version"</string>
     <string name="function_show_client_location_on_map">
         "Option \"Show your location on map\" available only for paid version"</string>
+    <string name="function_show_weather_on_map">
+        "Option \"Show weather selected on map\" available only for paid version"</string>
 
 </resources>

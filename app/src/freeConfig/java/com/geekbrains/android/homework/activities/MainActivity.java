@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -40,11 +41,26 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private FloatingActionButton floatingActionButton;
     private NavigationView navigationView;
+    private SharedPreferences settingPrefs;
     private Toolbar toolbar;
+
+    private final String settingsPrefsKey = "named_prefs";
+    private final String themeKey = "theme_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        settingPrefs = getSharedPreferences(settingsPrefsKey, MODE_PRIVATE);
+
+        boolean isDarkTheme = settingPrefs.getBoolean(themeKey, false);
+
+        if (isDarkTheme) {
+            setTheme(R.style.AppDarkTheme);
+        } else {
+            setTheme(R.style.AppTheme_NoActionBar);
+        }
+
         setContentView(R.layout.activity_main);
 
         initViews();
